@@ -1,6 +1,7 @@
 import { BytesLike, ethers } from "ethers";
 // eslint-disable-next-line node/no-missing-import
 import { CustomBallot, MyToken } from "../typechain";
+import { PROPOSALS_BYTES } from "./constants";
 // eslint-disable-next-line node/no-missing-import
 import { loadJson, getSigner } from "./helpers";
 
@@ -55,11 +56,15 @@ export const deployNewBallotContract = async (
 
   let ballotContract;
   try {
+    console.log(`Deploying new ballot contract from ${signer.address}...`);
     ballotContract = await ballotContractFactory.deploy(
       proposals,
       tokenAddress
     );
     await ballotContract.deployed();
+    console.log(
+      `Succesfully deployed token contract at ${ballotContract.address}`
+    );
   } catch (e) {
     console.log(e);
     throw new DeploymentError("Ballot contract failed to deploy");

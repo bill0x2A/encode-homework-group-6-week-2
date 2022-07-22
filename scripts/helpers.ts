@@ -50,7 +50,6 @@ export const checkBalance = async (
 };
 
 export const getSigner = () => {
-  console.log(process.env.PRIVATE_KEY);
   if (!(process.env.MNEMONIC || process.env.PRIVATE_KEY)) {
     throw new Error(
       "Please add a MNEMONIC or PRIVATE_KEY to your .env file at the root of the project"
@@ -61,7 +60,6 @@ export const getSigner = () => {
     process.env.MNEMONIC && process.env.MNEMONIC.length > 0
       ? ethers.Wallet.fromMnemonic(process.env.MNEMONIC)
       : new ethers.Wallet(process.env.PRIVATE_KEY as ethers.BytesLike);
-  console.log(`Using address ${wallet.address}`);
 
   const provider = ethers.providers.getDefaultProvider("ropsten", {
     infura: {
@@ -70,4 +68,19 @@ export const getSigner = () => {
     },
   });
   return wallet.connect(provider);
+};
+
+export const waitForBlocks = async (blocks: number) => {
+  console.log(`Waiting for ${blocks} block${blocks === 1 ? "" : "s"}...`);
+  const provider = getSigner().provider;
+  const startingBlockNumber = await provider.getBlockNumber();
+  return new Promise<void>((resolve) => {
+    provider.on("block", (blockNumber) => {
+      console.log(`Block ${blockNumber} mined`);
+      if (blockNumber >= startingBlockNumber + blocks) {
+        provider.off("block");
+        resolve();
+      }
+    });
+  });
 };
