@@ -44,11 +44,11 @@ export const setupScripts = async (contractAddress?: string) => {
   const ballotJson: ethers.Contract = await loadJson(
     __dirname,
     "../artifacts/contracts/CustomBallot.sol/CustomBallot.json" //Question - what exactly is happening here?
-  );
+  );// json are the o/p of the abi
 
   const tokenJson: ethers.Contract = await loadJson(
     __dirname,
-    "../artifacts/contracts/Token.sol/MyToken.json" //Question - what exactly is happening here?
+    "../artifacts/contracts/Token.sol/MyToken.json" 
   );
 
   if (!(process.env.MNEMONIC || process.env.PRIVATE_KEY)) {
@@ -101,7 +101,7 @@ export const setupScripts = async (contractAddress?: string) => {
     signer,
   };
 };
-
+// functionname(varialbe: value)
 export const checkBalance = async (signer: ethers.Signer): Promise<void> => {// Question - What is the Promise in the paramter?
   const balanceBN = await signer.getBalance();
   const balance = Number(ethers.utils.formatEther(balanceBN));

@@ -26,8 +26,8 @@ export async function deployNewContract(
   });
 
   const ballotFactory = new ethers.ContractFactory(
-    ballotJson.abi, //Question - Abi? 
-    ballotJson.bytecode,
+    ballotJson.abi, //Question - Abi? generated list of all the functions that are available. Kinda Interface 
+    ballotJson.bytecode, // compiled contract that gets uploaded on the chain
     signer
   );
 
