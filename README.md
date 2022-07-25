@@ -24,9 +24,11 @@ Please be aware that we have different solutions implemented in different branch
 ```shell 
 ts-node scripts/deployTokenContract.ts 
 ```
-* Output: 
+* Output:
+```
 Deploying new token contract from 0xBD720874a79628D42BcCE5FCEBBF716239b561Ea...
 Succesfully deployed token contract at 0x6F0cB9927b9324388DC1849a4B14Ca386856eEe6
+```
 
 * Etherscan Contract Address: 
 https://ropsten.etherscan.io/address/0x6F0cB9927b9324388DC1849a4B14Ca386856eEe6
@@ -36,7 +38,8 @@ https://ropsten.etherscan.io/address/0x6F0cB9927b9324388DC1849a4B14Ca386856eEe6
 ```shell 
 ts-node scripts/fullVote.ts 
 ```
-* Output: 
+* Output:
+```
 Deploying new token contract from 0xBD720874a79628D42BcCE5FCEBBF716239b561Ea...
 Succesfully deployed token contract at 0x81B4635e7452AFA55590582d16A9CB3ED19e8765
 Minting tokens to 0xBD720874a79628D42BcCE5FCEBBF716239b561Ea...
@@ -56,6 +59,7 @@ Voting for proposal 2
 Successfully voted for proposal 2 with 50.0 voting power
 Voting power: 40.0
 Winning proposal Prop 2
+```
 
 * Etherscan Tx's
 Token Contract: https://ropsten.etherscan.io/tx/0x81B4635e7452AFA55590582d16A9CB3ED19e8765
