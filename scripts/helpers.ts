@@ -115,3 +115,38 @@ export const checkBalance = async (signer: ethers.Signer): Promise<void> => {
     throw new Error("Not enough ether");
   }
 };
+
+export const getSigner = () => {
+  if (!(process.env.MNEMONIC || process.env.PRIVATE_KEY)) {
+    throw new Error(
+      "Please add a MNEMONIC or PRIVATE_KEY to your .env file at the root of the project"
+    );
+  }
+  const wallet =
+    process.env.MNEMONIC && process.env.MNEMONIC.length > 0
+      ? ethers.Wallet.fromMnemonic(process.env.MNEMONIC)
+      : new ethers.Wallet(process.env.PRIVATE_KEY as ethers.BytesLike);
+
+  const provider = ethers.providers.getDefaultProvider("ropsten", {
+    infura: {
+      projectId: process.env.INFURA_PROJECT_ID,
+      projectSecret: process.env.INFURA_PROJECT_SECRET,
+    },
+  });
+  return wallet.connect(provider);
+};
+
+export const waitForBlocks = async (blocks: number) => {
+  console.log(`Waiting for ${blocks} block${blocks === 1 ? "" : "s"}...`);
+  const provider = getSigner().provider;
+  const startingBlockNumber = await provider.getBlockNumber();
+  return new Promise<void>((resolve) => {
+    provider.on("block", (blockNumber) => {
+      console.log(`Block ${blockNumber} mined`);
+      if (blockNumber >= startingBlockNumber + blocks) {
+        provider.off("block");
+        resolve();
+      }
+    });
+  });
+};

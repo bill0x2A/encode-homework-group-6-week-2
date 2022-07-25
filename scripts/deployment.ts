@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import "dotenv/config";
 // eslint-disable-next-line node/no-missing-import
 import { checkBalance, saveDeploymentAddress, setupScripts } from "./helpers";
+import { CustomBallot, MyToken } from "../typechain";
 
 function convertStringArrayToBytes32(array: string[]) {
   const bytes32Array = [];
@@ -41,7 +42,7 @@ export async function deployVoteTokenContract() {
 
   console.log("Contract deployment address successfully saved to artifacts. ");
 
-  return tokenContract.address;
+  return tokenContract as MyToken;
 }
 
 export async function deployNewBallotContract(
@@ -86,14 +87,14 @@ export async function deployNewBallotContract(
 
   console.log("Contract deploymnet address successfully saved to artifacts");
 
-  return ballotContract.address;
+  return ballotContract as CustomBallot;
 }
 
 async function main() {
   console.log("We're in main");
-  const voteTokenAddress = await deployVoteTokenContract();
+  const myToken = await deployVoteTokenContract();
   const proposals = ["Proposal 1", "Proposal 2", "Proposal 3"];
-  await deployNewBallotContract(proposals, voteTokenAddress);
+  await deployNewBallotContract(proposals, myToken.address);
 }
 
 main().catch((error) => {
